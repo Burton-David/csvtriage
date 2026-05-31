@@ -1,0 +1,115 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "csvtriage"
+version = "0.1.0"
+description = "Load messy CSVs, recover what you can, and report every decision."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "David Burton", email = "david@databurton.com" }]
+keywords = [
+    "csv",
+    "data-cleaning",
+    "encoding-detection",
+    "data-engineering",
+    "polars",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "polars>=0.20",
+    "chardet>=5.0",
+    "ftfy>=6.0",
+    "click>=8.0",
+]
+
+[project.optional-dependencies]
+parquet = ["pyarrow>=10.0"]
+pandas = ["pandas>=1.5"]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "black>=24.0",
+    "ruff>=0.4",
+    "mypy>=1.8",
+    "pyarrow>=10.0",
+    "pandas>=1.5",
+]
+
+[project.urls]
+Homepage = "https://github.com/Burton-David/csvtriage"
+Repository = "https://github.com/Burton-David/csvtriage"
+Issues = "https://github.com/Burton-David/csvtriage/issues"
+
+[project.scripts]
+csvtriage = "csvtriage.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/csvtriage"]
+
+[tool.black]
+line-length = 88
+target-version = ["py310"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "C4", "UP", "N"]
+ignore = ["E501", "E731"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.mypy]
+python_version = "3.10"
+files = ["src"]
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+warn_return_any = true
+warn_unused_ignores = true
+no_implicit_optional = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+    "slow: long-running tests (deselect with '-m \"not slow\"')",
+]
+filterwarnings = [
+    "error",
+    # read_csv_batched has no stable replacement on our Polars floor; we suppress
+    # the warning at the call site and migrate when the floor moves up.
+    "ignore:.*read_csv_batched.*:DeprecationWarning",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["csvtriage"]
+
+[tool.coverage.report]
+show_missing = true
+precision = 1
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]

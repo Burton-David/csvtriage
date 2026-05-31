@@ -1,0 +1,9 @@
+  Name  ,Age,  City,Salary  
+Alice  ,30,New York  ,75000
+  Bob,NA,San Francisco,
+Charlie,35,null,90000
+Diana,-,Boston,NULL
+,,,
+Eve ,28,  Seattle  ,85000
+Eve ,28,  Seattle  ,85000
+Frank,None,Portland,N/A
