@@ -150,7 +150,6 @@ except ct.ParseError as exc:
     print(exc)
 # Failed to parse 'data.csv': 1 row(s) could not be recovered. Pass
 #   on_bad_lines='skip' to load the rest and inspect report.quarantined.
-#   Try robust=True to recover what is parseable.
 ```
 
 The hierarchy: `CSVTriageError` (base), `EncodingError` (raised for an encoding
