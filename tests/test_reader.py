@@ -126,8 +126,7 @@ class TestNoSilentDataLoss:
             ct.read("data.csv")
         assert str(excinfo.value) == (
             "Failed to parse 'data.csv': 1 row(s) could not be recovered. Pass "
-            "on_bad_lines='skip' to load the rest and inspect report.quarantined. "
-            "Try robust=True to recover what is parseable."
+            "on_bad_lines='skip' to load the rest and inspect report.quarantined."
         )
 
     def test_skip_mode_loads_rest_and_records_quarantine(self, write_file) -> None:

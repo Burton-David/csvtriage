@@ -62,7 +62,6 @@ class ParseError(CSVTriageError):
                 f"Pass on_bad_lines='skip' to quarantine malformed rows instead."
             )
         else:
-            super().__init__(
-                f"Failed to parse '{filepath}': {error_detail}. "
-                f"Try robust=True to recover what is parseable."
-            )
+            # Every caller raises this after line-level recovery has already run,
+            # so suggesting robust=True would send people in a circle.
+            super().__init__(f"Failed to parse '{filepath}': {error_detail}.")
