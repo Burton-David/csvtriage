@@ -1,5 +1,9 @@
 # csvtriage
 
+[![CI](https://github.com/Burton-David/csvtriage/actions/workflows/ci.yml/badge.svg)](https://github.com/Burton-David/csvtriage/actions/workflows/ci.yml)
+[![Python 3.10–3.13](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
 **Load messy CSVs, recover what you can, and report every decision.**
 
 csvtriage is the CSV reader that never silently fails. It loads files other
