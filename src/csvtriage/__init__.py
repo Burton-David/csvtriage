@@ -1,4 +1,4 @@
-"""csvtriage — load messy CSVs, recover what you can, and report every decision.
+"""csvtriage: load messy CSVs, recover what you can, and report every decision.
 
 The library never fails silently: every read returns a :class:`~csvtriage.frame.Frame`
 whose :attr:`~csvtriage.frame.Frame.report` records the detected dialect, the
@@ -10,9 +10,7 @@ from importlib.metadata import PackageNotFoundError, version
 from .clean import quick_clean
 from .errors import (
     CSVTriageError,
-    DelimiterError,
     EncodingError,
-    FileTooLargeError,
     ParseError,
 )
 from .frame import Frame
@@ -27,9 +25,7 @@ except PackageNotFoundError:  # pragma: no cover - only during local source runs
 
 __all__ = [
     "CSVTriageError",
-    "DelimiterError",
     "EncodingError",
-    "FileTooLargeError",
     "Frame",
     "ParseError",
     "QuarantinedRow",
