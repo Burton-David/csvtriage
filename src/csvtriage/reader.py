@@ -58,7 +58,7 @@ def read(
     Raises:
         FileNotFoundError: If ``file_path`` does not exist.
         ParseError: If the file cannot be parsed even after recovery.
-        EncodingError: If no encoding can decode the file.
+        EncodingError: If Python has no codec for the encoding name.
     """
     path = Path(file_path)
     if not path.exists():
