@@ -36,6 +36,12 @@ class TestBasicReading:
         with pytest.raises(ValueError):
             ct.read(path, on_bad_lines="explode")
 
+    def test_unknown_encoding_name_raises_encoding_error(self, write_file) -> None:
+        # "latin-9" is a plausible typo for iso-8859-15 that Python has no codec for.
+        path = write_file("simple.csv", "a,b\n1,2\n")
+        with pytest.raises(ct.EncodingError, match="'latin-9'"):
+            ct.read(path, encoding="latin-9")
+
 
 class TestDialectHandling:
     def test_reads_semicolon_delimited(self, write_file) -> None:
@@ -107,6 +113,22 @@ class TestNoSilentDataLoss:
         path = write_file("c.csv", "a,b\n1,2\n<html>err</html>\n3,4,5\n")
         with pytest.raises(ParseError):
             ct.read(path, on_bad_lines="error")
+
+    def test_parse_error_message_matches_readme_example(
+        self, write_file, tmp_path, monkeypatch
+    ) -> None:
+        # The README's "Error handling" section quotes this message verbatim; if
+        # the wording changes, update the README with it. Reading by a relative
+        # name keeps tmp_path out of the message.
+        write_file("data.csv", "a,b\n1,2\n<html>err</html>\n3,4,5\n")
+        monkeypatch.chdir(tmp_path)
+        with pytest.raises(ParseError) as excinfo:
+            ct.read("data.csv")
+        assert str(excinfo.value) == (
+            "Failed to parse 'data.csv': 1 row(s) could not be recovered. Pass "
+            "on_bad_lines='skip' to load the rest and inspect report.quarantined. "
+            "Try robust=True to recover what is parseable."
+        )
 
     def test_skip_mode_loads_rest_and_records_quarantine(self, write_file) -> None:
         # Same file, skip mode: the recoverable rows load (over-long row captured

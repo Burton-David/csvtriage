@@ -36,6 +36,3 @@ Individually: `make fmt` (format), `make lint`, `make type`, `make test`.
 - [Conventional Commits](https://www.conventionalcommits.org/): `feat:`, `fix:`,
   `refactor:`, `test:`, `docs:`, `chore:`. Imperative mood, no trailing period.
 - One logical change per pull request, with CI green.
-
-See [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md) for the product vision and
-roadmap.
