@@ -43,45 +43,6 @@ class EncodingError(CSVTriageError):
         super().__init__(message)
 
 
-class DelimiterError(CSVTriageError):
-    """No delimiter produced a consistent column structure."""
-
-    def __init__(
-        self,
-        filepath: PathLike,
-        attempted_delimiters: list[str] | None = None,
-    ) -> None:
-        self.filepath = filepath
-        self.attempted_delimiters = attempted_delimiters or [",", "\t", ";", "|"]
-        tried = ", ".join(repr(d) for d in self.attempted_delimiters)
-        super().__init__(
-            f"Could not detect a delimiter for '{filepath}' (tried {tried}). "
-            f"Specify it explicitly, e.g. read('{filepath}', delimiter=',')."
-        )
-
-
-class FileTooLargeError(CSVTriageError):
-    """The file is too large to load into memory; use streaming instead.
-
-    Named to avoid shadowing the builtin ``MemoryError``.
-    """
-
-    def __init__(
-        self,
-        filepath: PathLike,
-        file_size: int,
-        available_memory: int | None = None,
-    ) -> None:
-        self.filepath = filepath
-        self.file_size = file_size
-        self.available_memory = available_memory
-        size_gb = file_size / (1024**3)
-        super().__init__(
-            f"'{filepath}' is {size_gb:.1f} GB — too large to load into memory. "
-            f"Stream it instead: for chunk in stream('{filepath}'): ..."
-        )
-
-
 class ParseError(CSVTriageError):
     """The CSV could not be parsed even after recovery."""
 
